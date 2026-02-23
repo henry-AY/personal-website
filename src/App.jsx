@@ -57,7 +57,7 @@ const projects = [
     title: "ATS Resume Screening",
     description: "An Applicant Tracking System (ATS) using SBERT embeddings to compare similarities, and training a Support Vector Machine (SVM) to classify candidates.",
     imageSrc: "https://images.unsplash.com/photo-1712684819524-af72f0d9c3e5?q=80&w=987&auto=format&fit=crop", 
-    tech: ["React", "Stripe", "GraphQL"],
+    tech: ["Jupyter Notebook", "SBERT", "SVM", "t-SNE Clustering"],
     github: "https://github.com/henry-AY/ResumeScreening"
   }
 ];
