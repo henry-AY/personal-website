@@ -1,5 +1,5 @@
-import { useRef, useState, useEffect } from 'react';
-import { motion, useScroll, useTransform, useInView } from 'motion/react';
+import { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
 import { ReactLenis, useLenis } from 'lenis/react';
 
 import ColorBends from './ColorBends';
@@ -71,19 +71,24 @@ function ExperienceCard({ exp }) {
         <motion.p layout className="exp-company">{exp.company}</motion.p>
         <motion.p layout className="exp-description">{exp.description}</motion.p>
         
-        {isOpen && (
-          <motion.ul 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.4, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="exp-details"
-          >
-            {exp.details.map((detail, i) => (
-              <motion.li layout key={i}>{detail}</motion.li>
-            ))}
-          </motion.ul>
-        )}
+        <AnimatePresence initial={false}>
+          {isOpen && (
+            <motion.div 
+              key="accordion-content"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+              style={{ overflow: "hidden" }}
+            >
+              <ul className="exp-details">
+                {exp.details && exp.details.map((detail, i) => (
+                  <li key={i}>{detail}</li>
+                ))}
+              </ul>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         <motion.button layout className="exp-toggle">
           {isOpen ? <Minus size={16} /> : <Plus size={16} />}
@@ -179,27 +184,26 @@ const projects = [
 
 const experiences = [
   {
-    role: "Data Science Intern",
-    company: "Tech Company Name",
-    date: "2024 — Present",
-    tech: ["AWS", "Lambda", "Keywords", "Python"],
-    description: "Engineered robust data pipelines and developed machine learning models to optimize internal processes.",
+    role: "Lead Developer",
+    company: "Phil",
+    date: "Mar 2026 — Present",
+    tech: ["AWS", "Lambda", "DynamoDB", "RESTful APIs", "OAuth 2.0"],
+    description: "Leading the backend architecture and beta deployment for an AI-powered email management Chrome extension.",
     details: [
-      "TO BE filled",
-      "TO BE filled",
-      "TO BE filled"
+      "Architected and deployed to beta an AI email Chrome extension using a serverless AWS Lambda backend to categorize user inboxes via a RESTful microservices architecture.",
+      "Implemented a stateless data pipeline using DynamoDB TTL to minimize long-term data cloud storage usage and costs.",
+      "Implemented high-privilege OAuth 2.0 modify scopes on user's inboxes with server-side token verification to ensure secure authorized access."
     ]
   },
   {
-    role: "Software Engineering Intern",
-    company: "Another Company",
-    date: "2023 — 2024",
-    tech: ["C++", "Backend", "Tester", "MIL"],
-    description: "Built and maintained highly responsive frontend interfaces and optimized state management.",
+    role: "Propulsion, Controls & Modeling Testing Subteam Lead",
+    company: "UCR EcoCAR",
+    date: "Oct 2025 — Present",
+    tech: ["Simulink", "MATLAB", "CI/CD", "Model-in-the-Loop (MIL)"],
+    description: "Directing the software testing, validation and automated deployment of advanced vehicle subsystems.",
     details: [
-      "TO BE filled",
-      "TO BE filled",
-      "TO BE filled"
+      "Engineered and deployed an automated testing pipeline for MATLAB subsystems. Built a standalone python CI/CD system, and a distributed CI/CD system using Git/Gitea actions, reducing overall maintenance and overhead.",
+      "Lead the of testing process across critical systems, including the Electric Drive Unit, Transmission Range Select, and Active Discharge subsystems, improving overall software reliability and behavior." 
     ]
   }
 ];
