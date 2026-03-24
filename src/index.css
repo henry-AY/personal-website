@@ -116,6 +116,9 @@ body {
     z-index: 1; 
     background-color: var(--bg-main);
     box-shadow: 0 -50px 100px rgba(0, 0, 0, 1);
+
+    will-change: transform; 
+    transform: translateZ(0);
 }
 
 .scrolling-content-layer::before, .stacking-footer::after {
@@ -283,10 +286,32 @@ body {
 .card-bottom p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.5; flex-grow: 1; }
 
 .tech-stack { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+
 .tech-pill {
-    font-size: 0.8rem; font-family: monospace; color: var(--text-muted);
-    background-color: var(--bg-main); padding: 0.4rem 1rem;
-    border-radius: 4px; border: 1px solid var(--border-dim);
+    font-size: 0.8rem; 
+    font-family: monospace; 
+    color: var(--text-muted);
+    background-color: transparent; 
+    padding: 0.4rem 1rem;
+    border-radius: 4px; 
+    border: 1px solid var(--border-dim);
+    transition: all 0.3s ease;
+    cursor: default;
+}
+
+.experience-item:hover .tech-pill,
+.project-card:hover .tech-pill {
+    border-color: var(--border-hover);
+    color: #a0a0a0;
+}
+
+.experience-item:hover .tech-pill:hover,
+.project-card:hover .tech-pill:hover {
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+    background-color: rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
 }
 
 /* === FOOTER === */
@@ -325,4 +350,17 @@ body {
 
 @media (max-width: 600px) {
     .exp-meta { flex-direction: column; align-items: flex-start; gap: 0.25rem; }
+    
+    .pill-nav {
+        justify-content: center;
+        padding: 0.75rem 1rem;
+    }
+    
+    .pill-nav .nav-connect {
+        display: none;
+    }
+    
+    .pill-nav .logo span {
+        display: none;
+    }
 }

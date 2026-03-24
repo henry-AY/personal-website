@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValueEvent } from "framer-motion";
 import { ReactLenis, useLenis } from 'lenis/react';
 
 import ColorBends from './ColorBends';
@@ -24,13 +24,24 @@ function ParallaxImage({ src, alt }) {
 }
 
 const Hero = () => {
-  const heroRef = useRef(null);
-  const isInView = useInView(heroRef, { margin: "0px" });
+  const { scrollY } = useScroll();
+  const [showCanvas, setShowCanvas] = useState(true);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    // If scrolled past the window height, kill the WebGL canvas to save GPU
+    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
+    
+    if (latest > viewportHeight) {
+      if (showCanvas) setShowCanvas(false);
+    } else {
+      if (!showCanvas) setShowCanvas(true);
+    }
+  });
 
   return (
-    <header ref={heroRef} className="hero">
+    <header className="hero">
       <div className="hero-bg">
-        {isInView && (
+        {showCanvas && (
           <ColorBends 
             colors={["#ff5c7a", "#8a5cff", "#00ffd1"]} 
             rotation={0} speed={0.2} scale={1} frequency={1} 
@@ -98,7 +109,9 @@ function ExperienceCard({ exp }) {
         {exp.tech && (
           <motion.div layout className="tech-stack exp-tech">
             {exp.tech.map((techItem, i) => (
-              <span key={i} className="tech-pill">{techItem}</span>
+              <span key={i} className="tech-pill">
+                {techItem}
+              </span>
             ))}
           </motion.div>
         )}
@@ -285,8 +298,10 @@ function App() {
                       </div>
                       <p>{project.description}</p>
                       <div className="tech-stack">
-                        {project.tech.map((tech, i) => (
-                          <span key={i} className="tech-pill">{tech}</span>
+                        {project.tech.map((techItem, i) => (
+                          <span key={i} className="tech-pill">
+                            {techItem}
+                          </span>
                         ))}
                       </div>
                     </div>
