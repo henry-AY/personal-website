@@ -184,7 +184,7 @@ const projects = [
     description: "A Chrome Extension that intelligently filters, summarizes, and organizes your Gmail inbox. Phil fetches your latest emails, and presents a clean, organized, labeled list.",
     imageSrc: "https://images.unsplash.com/photo-1653299832314-5d3dc1e5a83c?q=80&w=927&auto=format&fit=crop", 
     tech: ["Node.js", "RESTful API", "Gemini Agent", "AWS Lambda"],
-    github: "https://github.com/Dekamayaro/PHIL"
+    github: "https://github.com/henry-AY/Phil"
   },
   {
     title: "ATS Resume Screening",
