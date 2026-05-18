@@ -1,12 +1,13 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent, useSpring } from "framer-motion";
 import { ReactLenis, useLenis } from 'lenis/react';
 
 import ColorBends from './ColorBends';
 import TiltedCard from './TiltedCard';
 import MagneticElement from './MagneticElement';
+import GradualBlur from './GradualBlur';
 
-import { Github, Linkedin, Mail, ChevronDown, Plus, Minus, ArrowLeft } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Plus, Minus } from 'lucide-react';
 
 function ParallaxImage({ src, alt }) {
   const ref = useRef(null);
@@ -18,7 +19,8 @@ function ParallaxImage({ src, alt }) {
 
   return (
     <div ref={ref} className="card-image-container">
-      <motion.img src={src} alt={alt} className="card-image" style={{ y }} />
+      {/* Added willChange to force GPU acceleration on the parallax element */}
+      <motion.img src={src} alt={alt} className="card-image" style={{ y, willChange: "transform" }} />
     </div>
   );
 }
@@ -26,10 +28,18 @@ function ParallaxImage({ src, alt }) {
 const Hero = () => {
   const { scrollY } = useScroll();
   const [showCanvas, setShowCanvas] = useState(true);
+  
+  // Cache viewport height so we don't recalculate layout on every scroll tick
+  const viewportHeight = useRef(typeof window !== "undefined" ? window.innerHeight : 800);
+
+  useEffect(() => {
+    const handleResize = () => { viewportHeight.current = window.innerHeight; };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
-    if (latest > viewportHeight) {
+    if (latest > viewportHeight.current) {
       if (showCanvas) setShowCanvas(false);
     } else {
       if (!showCanvas) setShowCanvas(true);
@@ -115,6 +125,53 @@ function ExperienceCard({ exp }) {
         )}
       </motion.div>
     </motion.div>
+  );
+}
+
+// Extracted to isolate scroll listeners from unmounting components
+function ExperienceSection({ experiences }) {
+  const timelineRef = useRef(null);
+  
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start center", "end center"]
+  });
+
+  const timelineProgress = useSpring(scrollYProgress, {
+    stiffness: 70,
+    damping: 25,
+    mass: 0.3
+  });
+
+  return (
+    <section id="experience" className="experience-section">
+      <div className="section-header">
+        <h2>Experience</h2>
+        <p>01 — 02</p>
+      </div>
+
+      <div className="experience-container" ref={timelineRef}>
+        <div className="timeline-track"></div>
+        <motion.div 
+          className="timeline-progress" 
+          style={{ scaleY: timelineProgress, transformOrigin: "top", willChange: "transform" }} 
+        />
+
+        <div className="experience-list">
+          {experiences.map((exp, index) => (
+            <motion.div 
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.6, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+            >
+              <ExperienceCard exp={exp} />
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -278,21 +335,9 @@ const experiences = [
 
 function App() {
   const [view, setView] = useState('home'); 
-  const timelineRef = useRef(null);
-  
-  const { scrollYProgress } = useScroll({
-    target: timelineRef,
-    offset: ["start center", "end center"]
-  });
-
-  const timelineProgress = useSpring(scrollYProgress, {
-    stiffness: 70,
-    damping: 25,
-    mass: 0.3
-  });
 
   return (
-    <ReactLenis root options={{ lerp: 0.01, duration: 1.5, smoothTouch: false }}>
+    <ReactLenis root options={{ lerp: 0.08, smoothTouch: false }}>
       <div id="home" style={{ position: 'absolute', top: 0 }}></div>
       <div className="noise-overlay"></div>
 
@@ -309,35 +354,20 @@ function App() {
           >
             <Hero />
 
+            <div style={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50, pointerEvents: 'none' }}>
+              <GradualBlur
+                target="parent"
+                position="bottom"
+                height="8rem"
+                strength={3}
+                divCount={5}
+                curve="ease-out"
+                exponential={true}
+              />
+            </div>
+
             <main className="scrolling-content-layer">
-              <section id="experience" className="experience-section">
-                <div className="section-header">
-                  <h2>Experience</h2>
-                  <p>01 — 02</p>
-                </div>
-
-                <div className="experience-container" ref={timelineRef}>
-                  <div className="timeline-track"></div>
-                  <motion.div 
-                    className="timeline-progress" 
-                    style={{ scaleY: timelineProgress, transformOrigin: "top" }} 
-                  />
-
-                  <div className="experience-list">
-                    {experiences.map((exp, index) => (
-                      <motion.div 
-                        key={index}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-100px" }}
-                        transition={{ duration: 0.6, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
-                      >
-                        <ExperienceCard exp={exp} />
-                      </motion.div>
-                    ))}
-                  </div>
-                </div>
-              </section>
+              <ExperienceSection experiences={experiences} />
 
               <section id="projects" className="projects-section">
                 <div className="section-header">
@@ -381,7 +411,7 @@ function App() {
               </section>
             </main>
 
-            <footer id="contact" className="stacking-footer" style={{ padding: '6rem 2rem 1.5rem 2rem' }}>
+            <footer id="contact" className="stacking-footer" style={{position: 'relative', zIndex: 100, padding: '6rem 2rem 1.5rem 2rem' }}>
               <div className="footer-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                 <h2>Let's connect.</h2>
                 
