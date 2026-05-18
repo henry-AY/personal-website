@@ -1,12 +1,12 @@
 import { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, AnimatePresence, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent, useSpring } from "framer-motion";
 import { ReactLenis, useLenis } from 'lenis/react';
 
 import ColorBends from './ColorBends';
 import TiltedCard from './TiltedCard';
 import MagneticElement from './MagneticElement';
 
-import { Github, Linkedin, Mail, ChevronDown, Plus, Minus } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Plus, Minus, ArrowLeft } from 'lucide-react';
 
 function ParallaxImage({ src, alt }) {
   const ref = useRef(null);
@@ -28,9 +28,7 @@ const Hero = () => {
   const [showCanvas, setShowCanvas] = useState(true);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    // If scrolled past the window height, kill the WebGL canvas to save GPU
     const viewportHeight = typeof window !== "undefined" ? window.innerHeight : 800;
-    
     if (latest > viewportHeight) {
       if (showCanvas) setShowCanvas(false);
     } else {
@@ -120,18 +118,21 @@ function ExperienceCard({ exp }) {
   );
 }
 
-function Navigation() {
+function Navigation({ view, setView }) {
   const lenis = useLenis();
 
   const handleScroll = (e, target) => {
     e.preventDefault();
-    if (lenis) {
-      lenis.scrollTo(target, { 
-        offset: 0, 
-        duration: 1.5, 
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
-      });
-    }
+    setView('home'); 
+    setTimeout(() => {
+      if (lenis) {
+        lenis.scrollTo(target, { 
+          offset: 0, 
+          duration: 1.5, 
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t))
+        });
+      }
+    }, 50);
   };
 
   return (
@@ -141,9 +142,8 @@ function Navigation() {
       </div>
 
       <div className="nav-page-links">
-        <a href="#home" onClick={(e) => handleScroll(e, '#home')}>Home</a>
-        <a href="#experience" onClick={(e) => handleScroll(e, '#experience')}>Experience</a>
-        <a href="#projects" onClick={(e) => handleScroll(e, '#projects')}>Projects</a>
+        <a href="#home" onClick={(e) => handleScroll(e, '#home')} className={view === 'home' ? 'active' : ''}>Portfolio</a>
+        <a href="#now" onClick={(e) => { e.preventDefault(); window.scrollTo(0, 0); setView('now'); }} className={view === 'now' ? 'active' : ''}>Now</a>
       </div>
 
       <div className="nav-connect">
@@ -161,6 +161,61 @@ function Navigation() {
         </MagneticElement>
       </div>
     </nav>
+  );
+}
+
+function NowPage({ setView }) {
+  return (
+    <motion.main 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      className="now-page-container"
+      style={{ 
+        padding: '12rem 2rem 6rem 2rem', 
+        minHeight: '85vh', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        gap: '4rem' 
+      }}
+    >
+      <div style={{ textAlign: 'center', maxWidth: '600px' }}>
+        <h1 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.05em', fontWeight: 700 }}>Right Now.</h1>
+        <p style={{ color: 'var(--text-muted)', fontFamily: 'monospace', lineHeight: '1.8', fontSize: '0.95rem' }}>
+          // A space for what i'm currently doing
+        </p>
+      </div>
+
+      <div className="now-playing-card" style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        <p style={{ fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--text-muted)', margin: 0, paddingLeft: '4px' }}>
+          ON REPEAT
+        </p>
+        <iframe 
+          style={{ borderRadius: '12px', border: '1px solid var(--border-dim)', boxShadow: '0 20px 40px rgba(0,0,0,0.6)' }} 
+          src="https://open.spotify.com/embed/track/5YxO2ytkSJOvrLn7i1xUe2?utm_source=generator&theme=0" 
+          width="100%" 
+          height="80" 
+          border="0" 
+          allowFullScreen="" 
+          allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', maxWidth: '480px', width: '100%', borderTop: '1px solid var(--border-dim)', paddingTop: '3rem' }}>
+        <div>
+          <h4 style={{ fontFamily: 'monospace', color: 'var(--text-muted)', fontSize: '0.75rem', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>CURRENT FOCUS</h4>
+          <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#e0e0e0' }}>Building a generative engine to mimic data distributions.</p>
+        </div>
+        <div>
+          <h4 style={{ fontFamily: 'monospace', color: 'var(--text-muted)', fontSize: '0.75rem', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>CURRENTLY READING</h4>
+          <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#e0e0e0' }}>The Philosopher in the Valley by Michael Steinberger</p>
+        </div>
+      </div>
+    </motion.main>
   );
 }
 
@@ -184,7 +239,7 @@ const projects = [
     description: "A Chrome Extension that intelligently filters, summarizes, and organizes your Gmail inbox. Phil fetches your latest emails, and presents a clean, organized, labeled list.",
     imageSrc: "https://images.unsplash.com/photo-1653299832314-5d3dc1e5a83c?q=80&w=927&auto=format&fit=crop", 
     tech: ["Node.js", "RESTful API", "Gemini Agent", "AWS Lambda"],
-    github: "https://github.com/henry-AY/Phil"
+    github: "https://github.com/Dekamayaro/PHIL"
   },
   {
     title: "ATS Resume Screening",
@@ -222,10 +277,18 @@ const experiences = [
 ];
 
 function App() {
+  const [view, setView] = useState('home'); 
   const timelineRef = useRef(null);
-  const { scrollYProgress: timelineProgress } = useScroll({
+  
+  const { scrollYProgress } = useScroll({
     target: timelineRef,
     offset: ["start center", "end center"]
+  });
+
+  const timelineProgress = useSpring(scrollYProgress, {
+    stiffness: 70,
+    damping: 25,
+    mass: 0.3
   });
 
   return (
@@ -233,116 +296,126 @@ function App() {
       <div id="home" style={{ position: 'absolute', top: 0 }}></div>
       <div className="noise-overlay"></div>
 
-      <Navigation />
+      <Navigation view={view} setView={setView} />
 
-      <Hero />
+      <AnimatePresence mode="wait">
+        {view === 'home' ? (
+          <motion.div
+            key="home-view"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Hero />
 
-      <main className="scrolling-content-layer">
-        
-        <section id="experience" className="experience-section">
-          
-          <div className="section-header">
-            <h2>Experience</h2>
-            <p>01 — 02</p>
-          </div>
+            <main className="scrolling-content-layer">
+              <section id="experience" className="experience-section">
+                <div className="section-header">
+                  <h2>Experience</h2>
+                  <p>01 — 02</p>
+                </div>
 
-          <div className="experience-container" ref={timelineRef}>
-            
-            <div className="timeline-track"></div>
-            
-            <motion.div 
-              className="timeline-progress" 
-              style={{ scaleY: timelineProgress, transformOrigin: "top" }} 
-            />
+                <div className="experience-container" ref={timelineRef}>
+                  <div className="timeline-track"></div>
+                  <motion.div 
+                    className="timeline-progress" 
+                    style={{ scaleY: timelineProgress, transformOrigin: "top" }} 
+                  />
 
-            <div className="experience-list">
-              {experiences.map((exp, index) => (
-                <motion.div 
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.6, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
-                >
-                  <ExperienceCard exp={exp} />
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
+                  <div className="experience-list">
+                    {experiences.map((exp, index) => (
+                      <motion.div 
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.6, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+                      >
+                        <ExperienceCard exp={exp} />
+                      </motion.div>
+                    ))}
+                  </div>
+                </div>
+              </section>
 
-        <section id="projects" className="projects-section">
-          <div className="section-header">
-            <h2>Selected Works</h2>
-            <p>02 — 02</p>
-          </div>
-          
-          <div className="project-grid">
-            {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.6, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
-              >
-                <TiltedCard scaleOnHover={1.02} rotateAmplitude={8}>
-                  <a href={project.github} target="_blank" rel="noreferrer" className="project-card">
-                    <ParallaxImage src={project.imageSrc} alt={project.title} />
-                    <div className="card-bottom">
-                      <div className="card-title-row">
-                        <h3>{project.title}</h3>
-                        <span className="project-link" aria-label={`View ${project.title} on GitHub`}>
-                          <Github size={28} />
-                        </span>
-                      </div>
-                      <p>{project.description}</p>
-                      <div className="tech-stack">
-                        {project.tech.map((techItem, i) => (
-                          <span key={i} className="tech-pill">
-                            {techItem}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </a>
-                </TiltedCard>
-              </motion.div>
-            ))}
-          </div>
-        </section>
-      </main>
+              <section id="projects" className="projects-section">
+                <div className="section-header">
+                  <h2>Selected Works</h2>
+                  <p>02 — 02</p>
+                </div>
+                
+                <div className="project-grid">
+                  {projects.map((project, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.6, delay: index * 0.15, ease: [0.21, 0.47, 0.32, 0.98] }}
+                    >
+                      <TiltedCard scaleOnHover={1.02} rotateAmplitude={8}>
+                        <a href={project.github} target="_blank" rel="noreferrer" className="project-card">
+                          <ParallaxImage src={project.imageSrc} alt={project.title} />
+                          <div className="card-bottom">
+                            <div className="card-title-row">
+                              <h3>{project.title}</h3>
+                              <span className="project-link" aria-label={`View ${project.title} on GitHub`}>
+                                <Github size={28} />
+                              </span>
+                            </div>
+                            <p>{project.description}</p>
+                            <div className="tech-stack">
+                              {project.tech.map((techItem, i) => (
+                                <span key={i} className="tech-pill">
+                                  {techItem}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </a>
+                      </TiltedCard>
+                    </motion.div>
+                  ))}
+                </div>
+              </section>
+            </main>
 
-      <footer id="contact" className="stacking-footer">
-        <div className="footer-content">
-          <h2>Let's connect.</h2>
-          
-          <div className="social-links">
-            <MagneticElement>
-              <motion.a href="mailto:henryyost402@gmail.com" aria-label="Email" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                <Mail size={32} />
-              </motion.a>
-            </MagneticElement>
+            <footer id="contact" className="stacking-footer" style={{ padding: '6rem 2rem 1.5rem 2rem' }}>
+              <div className="footer-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <h2>Let's connect.</h2>
+                
+                <div className="social-links" style={{ marginBottom: '8rem' }}>
+                  <MagneticElement>
+                    <motion.a href="mailto:henryyost402@gmail.com" aria-label="Email" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                      <Mail size={32} />
+                    </motion.a>
+                  </MagneticElement>
 
-            <MagneticElement>
-              <motion.a href="https://github.com/henry-AY" target="_blank" rel="noreferrer" aria-label="GitHub" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                <Github size={32} />
-              </motion.a>
-            </MagneticElement>
+                  <MagneticElement>
+                    <motion.a href="https://github.com/henry-AY" target="_blank" rel="noreferrer" aria-label="GitHub" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                      <Github size={32} />
+                    </motion.a>
+                  </MagneticElement>
 
-            <MagneticElement>
-              <motion.a href="https://www.linkedin.com/in/henry-yost/" target="_blank" rel="noreferrer" aria-label="LinkedIn" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                <Linkedin size={32} />
-              </motion.a>
-            </MagneticElement>
-          </div>
-        </div>
-        
-        <div className="footer-bottom">
-          <p>© 2026 Henry Yost.</p>
-          <p>Designed and built with Vite and React.</p>
-        </div>
-      </footer>
+                  <MagneticElement>
+                    <motion.a href="https://www.linkedin.com/in/henry-yost/" target="_blank" rel="noreferrer" aria-label="LinkedIn" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                      <Linkedin size={32} />
+                    </motion.a>
+                  </MagneticElement>
+                </div>
+              </div>
+              
+              <div className="footer-bottom" style={{ paddingTop: '2.5rem', marginTop: '2rem' }}>
+                <p>© 2026 Henry Yost.</p>
+                <p>Designed and built with Vite and React.</p>
+              </div>
+            </footer>
+          </motion.div>
+        ) : (
+          <NowPage key="now-view" setView={setView} />
+        )}
+      </AnimatePresence>
     </ReactLenis>
   );
 }
