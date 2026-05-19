@@ -371,3 +371,7 @@ body {
         display: none;
     }
 }
+
+html.lenis-scrolling iframe {
+    pointer-events: none;
+}

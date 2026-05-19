@@ -1,0 +1,36 @@
+/* Update the scroller to allow window scrolling to work natively */
+.scroll-stack-scroller {
+  position: relative;
+  width: 100%;
+  height: auto; /* Changed from 100% */
+  overflow: visible; /* Changed from auto */
+  will-change: scroll-position;
+}
+
+/* Reduce the massive padding from the original ReactBits code */
+.scroll-stack-inner {
+  padding: 10vh 0 20vh 0; /* Adjusted for your layout */
+  min-height: 100vh;
+}
+
+/* Override the default card styles specifically for your Spotify embeds */
+.scroll-stack-card.spotify-stack-card {
+  height: auto; /* Let the 352px iframe dictate height */
+  width: 100%;
+  margin: 0; /* JavaScript handles the spacing */
+  padding: 0;
+  border-radius: 24px;
+  background-color: transparent;
+  box-shadow: none; /* We will apply shadow to the inner container */
+  position: relative;
+  transform-origin: top center;
+  will-change: transform, filter;
+  backface-visibility: hidden;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+.scroll-stack-end {
+  width: 100%;
+  height: 1px;
+}

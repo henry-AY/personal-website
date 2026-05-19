@@ -7,6 +7,8 @@ import TiltedCard from './TiltedCard';
 import MagneticElement from './MagneticElement';
 import GradualBlur from './GradualBlur';
 
+import NowPage from './NowPage';
+
 import { Github, Linkedin, Mail, ChevronDown, Plus, Minus } from 'lucide-react';
 
 function ParallaxImage({ src, alt }) {
@@ -19,7 +21,6 @@ function ParallaxImage({ src, alt }) {
 
   return (
     <div ref={ref} className="card-image-container">
-      {/* Added willChange to force GPU acceleration on the parallax element */}
       <motion.img src={src} alt={alt} className="card-image" style={{ y, willChange: "transform" }} />
     </div>
   );
@@ -128,7 +129,6 @@ function ExperienceCard({ exp }) {
   );
 }
 
-// Extracted to isolate scroll listeners from unmounting components
 function ExperienceSection({ experiences }) {
   const timelineRef = useRef(null);
   
@@ -221,60 +221,24 @@ function Navigation({ view, setView }) {
   );
 }
 
-function NowPage({ setView }) {
-  return (
-    <motion.main 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -20 }}
-      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-      className="now-page-container"
-      style={{ 
-        padding: '12rem 2rem 6rem 2rem', 
-        minHeight: '85vh', 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        gap: '4rem' 
-      }}
-    >
-      <div style={{ textAlign: 'center', maxWidth: '600px' }}>
-        <h1 style={{ fontSize: '3.5rem', marginBottom: '1.5rem', letterSpacing: '-0.05em', fontWeight: 700 }}>Right Now.</h1>
-        <p style={{ color: 'var(--text-muted)', fontFamily: 'monospace', lineHeight: '1.8', fontSize: '0.95rem' }}>
-          // A space for what i'm currently doing
-        </p>
-      </div>
-
-      <div className="now-playing-card" style={{ width: '100%', maxWidth: '480px', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-        <p style={{ fontSize: '0.8rem', fontFamily: 'monospace', color: 'var(--text-muted)', margin: 0, paddingLeft: '4px' }}>
-          ON REPEAT
-        </p>
-        <iframe 
-          style={{ borderRadius: '12px', border: '1px solid var(--border-dim)', boxShadow: '0 20px 40px rgba(0,0,0,0.6)' }} 
-          src="https://open.spotify.com/embed/track/5YxO2ytkSJOvrLn7i1xUe2?utm_source=generator&theme=0" 
-          width="100%" 
-          height="80" 
-          border="0" 
-          allowFullScreen="" 
-          allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
-          loading="lazy"
-        ></iframe>
-      </div>
-
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '3rem', maxWidth: '480px', width: '100%', borderTop: '1px solid var(--border-dim)', paddingTop: '3rem' }}>
-        <div>
-          <h4 style={{ fontFamily: 'monospace', color: 'var(--text-muted)', fontSize: '0.75rem', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>CURRENT FOCUS</h4>
-          <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#e0e0e0' }}>Building a generative engine to mimic data distributions.</p>
-        </div>
-        <div>
-          <h4 style={{ fontFamily: 'monospace', color: 'var(--text-muted)', fontSize: '0.75rem', letterSpacing: '0.05em', marginBottom: '0.75rem' }}>CURRENTLY READING</h4>
-          <p style={{ fontSize: '0.95rem', lineHeight: '1.6', color: '#e0e0e0' }}>The Philosopher in the Valley by Michael Steinberger</p>
-        </div>
-      </div>
-    </motion.main>
-  );
-}
+const onRepeatTracks = [
+  {
+    id: 1,
+    embedUrl: "https://open.spotify.com/embed/track/5YxO2ytkSJOvrLn7i1xUe2?utm_source=generator&theme=0"
+  },
+  {
+    id: 2,
+    embedUrl: "https://open.spotify.com/embed/track/5L95vS64rG1YMIFm1hLjyZ?utm_source=generator&theme=0"
+  },
+  {
+    id: 3,
+    embedUrl: "https://open.spotify.com/embed/track/1a7vBJg7GDMy5ClHexkfvv?utm_source=generator&theme=0"
+  },
+  {
+    id: 4,
+    embedUrl: "https://open.spotify.com/embed/track/57ZFmLushr2mLmY1NMoZwI?utm_source=generator&theme=0"
+  }
+];
 
 const projects = [
   {
@@ -359,7 +323,7 @@ function App() {
                 target="parent"
                 position="bottom"
                 height="8rem"
-                strength={3}
+                strength={1}
                 divCount={5}
                 curve="ease-out"
                 exponential={true}
@@ -443,7 +407,7 @@ function App() {
             </footer>
           </motion.div>
         ) : (
-          <NowPage key="now-view" setView={setView} />
+          <NowPage key="now-view" setView={setView} onRepeatTracks={onRepeatTracks} />
         )}
       </AnimatePresence>
     </ReactLenis>
