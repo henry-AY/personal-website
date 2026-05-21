@@ -260,14 +260,21 @@ const projects = [
     description: "A Chrome Extension that intelligently filters, summarizes, and organizes your Gmail inbox. Phil fetches your latest emails, and presents a clean, organized, labeled list.",
     imageSrc: "https://images.unsplash.com/photo-1653299832314-5d3dc1e5a83c?q=80&w=927&auto=format&fit=crop", 
     tech: ["Node.js", "RESTful API", "Gemini Agent", "AWS Lambda"],
-    github: "https://github.com/Dekamayaro/PHIL"
+    github: "https://github.com/henry-AY/Phil"
   },
+  // {
+  //   title: "ATS Resume Screening",
+  //   description: "An Applicant Tracking System (ATS) using SBERT embeddings to compare similarities, and training a Support Vector Machine (SVM) to classify candidates.",
+  //   imageSrc: "https://images.unsplash.com/photo-1712684819524-af72f0d9c3e5?q=80&w=987&auto=format&fit=crop", 
+  //   tech: ["Jupyter Notebook", "SBERT", "SVM", "t-SNE Clustering"],
+  //   github: "https://github.com/henry-AY/ResumeScreening"
+  // },
   {
-    title: "ATS Resume Screening",
-    description: "An Applicant Tracking System (ATS) using SBERT embeddings to compare similarities, and training a Support Vector Machine (SVM) to classify candidates.",
-    imageSrc: "https://images.unsplash.com/photo-1712684819524-af72f0d9c3e5?q=80&w=987&auto=format&fit=crop", 
-    tech: ["Jupyter Notebook", "SBERT", "SVM", "t-SNE Clustering"],
-    github: "https://github.com/henry-AY/ResumeScreening"
+    title: "Parrot",
+    description: "A distribution-aware generative engine for high-fidelity time-series synthesis. Designed to solve data scarcity in complex physical systems (EV/IoT) using β-Variational Auto-encoders and MMD-based statistical validation.",
+    imageSrc: "https://images.unsplash.com/photo-1504579264001-833438f93df2?q=80&w=2369&auto=format&fit=crop",
+    tech: ["PyTorch", "Deep Learning", "Variational Autoencoders (VAE)"],
+    github: "https://github.com/henry-AY/Parrot"
   }
 ];
 
