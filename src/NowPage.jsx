@@ -221,6 +221,53 @@ export default function NowPage({ setView, onRepeatTracks = [] }) {
                 </motion.div>
             </div>
 
+            {/* --- BACK TO PORTFOLIO LINK --- */}
+            <div style={{ 
+                width: '100%', 
+                display: 'flex', 
+                justifyContent: 'center', 
+                paddingTop: '2rem',
+                paddingBottom: '2rem'
+            }}>
+                <motion.button
+                    onClick={() => setView('home')}
+                    initial="rest"
+                    whileHover="hover"
+                    style={{
+                        background: 'none',
+                        border: 'none',
+                        color: 'var(--text-muted)',
+                        fontFamily: 'monospace',
+                        fontSize: '0.85rem',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.05em',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px 24px'
+                    }}
+                >
+                    <motion.svg 
+                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
+                        variants={{
+                            rest: { x: 0, color: 'var(--text-muted)' },
+                            hover: { x: -6, color: '#ffffff' }
+                        }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                    >
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 12H5M5 12L12 19M5 12L12 5" />
+                    </motion.svg>
+                    
+                    <motion.span variants={{
+                        rest: { color: 'var(--text-muted)' },
+                        hover: { color: '#ffffff' }
+                    }}>
+                        Back to portfolio
+                    </motion.span>
+                </motion.button>
+            </div>
+
         </motion.main>
     );
 }

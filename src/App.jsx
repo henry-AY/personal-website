@@ -9,7 +9,7 @@ import GradualBlur from './GradualBlur';
 
 import NowPage from './NowPage';
 
-import { Github, Linkedin, Mail, ChevronDown, Plus, Minus } from 'lucide-react';
+import { Github, Linkedin, Mail, ChevronDown, Plus, Minus , Check} from 'lucide-react';
 
 function ParallaxImage({ src, alt }) {
   const ref = useRef(null);
@@ -221,26 +221,21 @@ function Navigation({ view, setView }) {
   );
 }
 
-const onRepeatTracks = [
-  {
-    id: 1,
-    embedUrl: "https://open.spotify.com/embed/track/5YxO2ytkSJOvrLn7i1xUe2?utm_source=generator&theme=0"
-  },
-  {
-    id: 2,
-    embedUrl: "https://open.spotify.com/embed/track/5L95vS64rG1YMIFm1hLjyZ?utm_source=generator&theme=0"
-  },
-  {
-    id: 3,
-    embedUrl: "https://open.spotify.com/embed/track/1a7vBJg7GDMy5ClHexkfvv?utm_source=generator&theme=0"
-  },
-  {
-    id: 4,
-    embedUrl: "https://open.spotify.com/embed/track/57ZFmLushr2mLmY1NMoZwI?utm_source=generator&theme=0"
-  }
-];
-
 const projects = [
+  {
+    title: "Parrot",
+    description: "A distribution-aware generative engine for high-fidelity time-series synthesis. Designed to solve data scarcity in complex physical systems (EV/IoT) using β-Variational Auto-encoders and MMD-based statistical validation.",
+    imageSrc: "https://images.unsplash.com/photo-1504579264001-833438f93df2?q=80&w=2369&auto=format&fit=crop",
+    tech: ["PyTorch", "Deep Learning", "Variational Autoencoders (VAE)"],
+    github: "https://github.com/henry-AY/Parrot"
+  }, 
+  {
+    title: "Phil",
+    description: "A Chrome Extension that intelligently filters, summarizes, and organizes your Gmail inbox. Phil fetches your latest emails, and presents a clean, organized, labeled list.",
+    imageSrc: "https://images.unsplash.com/photo-1653299832314-5d3dc1e5a83c?q=80&w=927&auto=format&fit=crop", 
+    tech: ["Node.js", "RESTful API", "Gemini Agent", "AWS Lambda"],
+    github: "https://github.com/henry-AY/Phil"
+  },
   {
     title: "MonoGPT",
     description: "MonoGPT is a large language model (LLM) using a neural network and transformer architecture in PyTorch to generate human-like text.",
@@ -254,14 +249,7 @@ const projects = [
     imageSrc: "https://images.unsplash.com/photo-1548248823-ce16a73b6d49?q=80&w=988&auto=format&fit=crop", 
     tech: ["Git/Gitea", "Python", "MATLAB", "CI/CD"],
     github: "https://github.com/henry-AY/STAR-CICD-pipeline-docs"
-  },
-  {
-    title: "Phil",
-    description: "A Chrome Extension that intelligently filters, summarizes, and organizes your Gmail inbox. Phil fetches your latest emails, and presents a clean, organized, labeled list.",
-    imageSrc: "https://images.unsplash.com/photo-1653299832314-5d3dc1e5a83c?q=80&w=927&auto=format&fit=crop", 
-    tech: ["Node.js", "RESTful API", "Gemini Agent", "AWS Lambda"],
-    github: "https://github.com/henry-AY/Phil"
-  },
+  }
   // {
   //   title: "ATS Resume Screening",
   //   description: "An Applicant Tracking System (ATS) using SBERT embeddings to compare similarities, and training a Support Vector Machine (SVM) to classify candidates.",
@@ -269,13 +257,6 @@ const projects = [
   //   tech: ["Jupyter Notebook", "SBERT", "SVM", "t-SNE Clustering"],
   //   github: "https://github.com/henry-AY/ResumeScreening"
   // },
-  {
-    title: "Parrot",
-    description: "A distribution-aware generative engine for high-fidelity time-series synthesis. Designed to solve data scarcity in complex physical systems (EV/IoT) using β-Variational Auto-encoders and MMD-based statistical validation.",
-    imageSrc: "https://images.unsplash.com/photo-1504579264001-833438f93df2?q=80&w=2369&auto=format&fit=crop",
-    tech: ["PyTorch", "Deep Learning", "Variational Autoencoders (VAE)"],
-    github: "https://github.com/henry-AY/Parrot"
-  }
 ];
 
 const experiences = [
@@ -304,8 +285,62 @@ const experiences = [
   }
 ];
 
+const onRepeatTracks = [
+  {
+    id: "track-1",
+    embedUrl: "https://open.spotify.com/embed/track/5YxO2ytkSJOvrLn7i1xUe2?utm_source=generator"
+  },
+  {
+    id: "track-2",
+    embedUrl: "https://open.spotify.com/embed/track/5L95vS64rG1YMIFm1hLjyZ?utm_source=generator"
+  },
+  {
+    id: "track-3",
+    embedUrl: "https://open.spotify.com/embed/track/7MpAJjJbMrmeLJbrDJ0wHh?utm_source=generator"
+  },
+  {
+    id: "track-4",
+    embedUrl: "https://open.spotify.com/embed/track/57ZFmLushr2mLmY1NMoZwI?utm_source=generator"
+  }
+]
+
+// const onRepeatTracks = [
+//   {
+//     id: "track-1",
+//     embedUrl: "https://open.spotify.com/embed/track/5YxO2ytkSJOvrLn7i1xUe2?utm_source=generator&theme=0"
+//   },
+//   {
+//     id: "track-2",
+//     embedUrl: "https://open.spotify.com/embed/track/5L95vS64rG1YMIFm1hLjyZ?utm_source=generator&theme=0"
+//   },
+//   {
+//     id: "track-3",
+//     embedUrl: "https://open.spotify.com/embed/track/7MpAJjJbMrmeLJbrDJ0wHh?utm_source=generator&theme=0"
+//   },
+//   {
+//     id: "track-4",
+//     embedUrl: "https://open.spotify.com/embed/track/57ZFmLushr2mLmY1NMoZwI?utm_source=generator&theme=0"
+//   }
+// ]
+
 function App() {
   const [view, setView] = useState('home'); 
+  const [isCopied, setIsCopied] = useState(false);
+
+  const handleCopyEmail = (e) => {
+    e.preventDefault();
+    const user = "henryyost";
+    const num = "402"
+    const domain = "gmail.com";
+    
+    navigator.clipboard.writeText(`${user}${num}@${domain}`).then(() => {
+      setIsCopied(true);
+      
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    });
+  };
 
   return (
     <ReactLenis root options={{ lerp: 0.08, smoothTouch: false }}>
@@ -382,32 +417,106 @@ function App() {
               </section>
             </main>
 
-            <footer id="contact" className="stacking-footer" style={{position: 'relative', zIndex: 100, padding: '6rem 2rem 1.5rem 2rem' }}>
-              <div className="footer-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <h2>Let's connect.</h2>
+            <footer id="contact" className="stacking-footer" style={{position: 'relative', zIndex: 100, padding: '10rem 2rem 1.5rem 2rem' }}>
+              
+              <div className="footer-content" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3rem' }}>
                 
-                <div className="social-links" style={{ marginBottom: '8rem' }}>
-                  <MagneticElement>
-                    <motion.a href="mailto:henryyost402@gmail.com" aria-label="Email" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                      <Mail size={32} />
-                    </motion.a>
-                  </MagneticElement>
+                <h2 style={{ margin: 0 }}>Let's connect.</h2>
+                
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4rem' }}>
+                  
+                  <div className="social-links" style={{ display: 'flex', gap: '1.5rem' }}>
+                    <MagneticElement>
+                      <motion.a 
+                        href="#"
+                        onClick={handleCopyEmail}
+                        aria-label="Copy Email" 
+                        whileHover={{ y: -8, scale: 1.05 }} 
+                        whileTap={{ scaleX: 1.15, scaleY: 0.85 }} 
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
+                        <AnimatePresence mode="wait">
+                          {isCopied ? (
+                            <motion.div
+                              key="check"
+                              initial={{ opacity: 0, scale: 0.5, rotate: -45 }}
+                              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                              exit={{ opacity: 0, scale: 0.5 }}
+                              transition={{ duration: 0.15 }}
+                              style={{ display: 'flex' }}
+                            >
+                              <Check size={32} />
+                            </motion.div>
+                          ) : (
+                            <motion.div
+                              key="mail"
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              exit={{ opacity: 0, scale: 0.5 }}
+                              transition={{ duration: 0.15 }}
+                              style={{ display: 'flex' }}
+                            >
+                              <Mail size={32} />
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.a>
+                    </MagneticElement>
 
-                  <MagneticElement>
-                    <motion.a href="https://github.com/henry-AY" target="_blank" rel="noreferrer" aria-label="GitHub" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                      <Github size={32} />
-                    </motion.a>
-                  </MagneticElement>
+                    <MagneticElement>
+                      <motion.a href="https://github.com/henry-AY" target="_blank" rel="noreferrer" aria-label="GitHub" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                        <Github size={32} />
+                      </motion.a>
+                    </MagneticElement>
 
-                  <MagneticElement>
-                    <motion.a href="https://www.linkedin.com/in/henry-yost/" target="_blank" rel="noreferrer" aria-label="LinkedIn" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
-                      <Linkedin size={32} />
-                    </motion.a>
-                  </MagneticElement>
+                    <MagneticElement>
+                      <motion.a href="https://www.linkedin.com/in/henry-yost/" target="_blank" rel="noreferrer" aria-label="LinkedIn" whileHover={{ y: -8, scale: 1.05 }} whileTap={{ scaleX: 1.15, scaleY: 0.85 }} transition={{ type: "spring", stiffness: 400, damping: 10 }}>
+                        <Linkedin size={32} />
+                      </motion.a>
+                    </MagneticElement>
+                  </div>
+
+                  <motion.button
+                      onClick={() => setView('now')} 
+                      initial="rest"
+                      whileHover="hover"
+                      style={{
+                          background: 'none',
+                          border: 'none',
+                          color: 'var(--text-muted)',
+                          fontFamily: 'monospace',
+                          fontSize: '0.85rem',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          cursor: 'pointer',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '12px',
+                          padding: '12px 24px'
+                      }}
+                  >
+                      <motion.span variants={{
+                          rest: { color: 'var(--text-muted)' },
+                          hover: { color: '#ffffff' }
+                      }}>
+                          View the Now page
+                      </motion.span>
+
+                      <motion.svg 
+                          width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"
+                          variants={{
+                              rest: { x: 0, color: 'var(--text-muted)' },
+                              hover: { x: 6, color: '#ffffff' }
+                          }}
+                          transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                      >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M5 12H19M19 12L12 5M19 12L12 19" />
+                      </motion.svg>
+                  </motion.button>
                 </div>
               </div>
               
-              <div className="footer-bottom" style={{ paddingTop: '2.5rem', marginTop: '2rem' }}>
+              <div className="footer-bottom" style={{ paddingTop: '5rem', marginTop: '2rem' }}>
                 <p>© 2026 Henry Yost.</p>
                 <p>Designed and built with Vite and React.</p>
               </div>
