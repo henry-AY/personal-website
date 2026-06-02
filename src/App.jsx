@@ -2,10 +2,19 @@ import { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent, useSpring } from "framer-motion";
 import { ReactLenis, useLenis } from 'lenis/react';
 
+import '@fontsource-variable/inter';
+
 import ColorBends from './ColorBends';
 import TiltedCard from './TiltedCard';
 import MagneticElement from './MagneticElement';
 import GradualBlur from './GradualBlur';
+
+// Importing images
+import parrotImg from './assets/photo-1504579264001-833438f93df2.avif'
+import philImg from './assets/photo-1653299832314-5d3dc1e5a83c.avif'
+import monoImg from './assets/photo-1684503830891-27e71ff697e3.avif'
+import gstarImg from './assets/photo-1548248823-ce16a73b6d49.avif'
+
 
 import NowPage from './NowPage';
 
@@ -21,7 +30,12 @@ function ParallaxImage({ src, alt }) {
 
   return (
     <div ref={ref} className="card-image-container">
-      <motion.img src={src} alt={alt} className="card-image" style={{ y, willChange: "transform" }} />
+      <motion.img 
+        src={src} 
+        alt={alt} 
+        loading="lazy"
+        className="card-image" 
+        style={{ y, willChange: "transform" }} />
     </div>
   );
 }
@@ -225,28 +239,28 @@ const projects = [
   {
     title: "Parrot",
     description: "A distribution-aware generative engine for high-fidelity time-series synthesis. Designed to solve data scarcity in complex physical systems (EV/IoT) using β-Variational Auto-encoders and MMD-based statistical validation.",
-    imageSrc: "https://images.unsplash.com/photo-1504579264001-833438f93df2?q=80&w=2369&auto=format&fit=crop",
+    imageSrc: parrotImg,
     tech: ["PyTorch", "Deep Learning", "Variational Autoencoders (VAE)"],
     github: "https://github.com/henry-AY/Parrot"
   }, 
   {
     title: "Phil",
     description: "A Chrome Extension that intelligently filters, summarizes, and organizes your Gmail inbox. Phil fetches your latest emails, and presents a clean, organized, labeled list.",
-    imageSrc: "https://images.unsplash.com/photo-1653299832314-5d3dc1e5a83c?q=80&w=927&auto=format&fit=crop", 
+    imageSrc: philImg, 
     tech: ["Node.js", "RESTful API", "Gemini Agent", "AWS Lambda"],
     github: "https://github.com/henry-AY/Phil"
   },
   {
     title: "MonoGPT",
     description: "MonoGPT is a large language model (LLM) using a neural network and transformer architecture in PyTorch to generate human-like text.",
-    imageSrc: "https://images.unsplash.com/photo-1684503830891-27e71ff697e3?q=80&w=1001&auto=format&fit=crop", 
+    imageSrc: monoImg, 
     tech: ["Python", "PyTorch", "NumPy", "WebGL", "React", "Node.js", "FastAPI"],
     github: "https://github.com/henry-AY/monoGPT"
   },
   {
     title: "G-STAR",
     description: "Git/Gitea Simulink Test Automation Runner (G-STAR) is a CI/CD pipeline focused on automating the testing of .mldatx simulink model files utilizing a git/gitea runner.",
-    imageSrc: "https://images.unsplash.com/photo-1548248823-ce16a73b6d49?q=80&w=988&auto=format&fit=crop", 
+    imageSrc: gstarImg, 
     tech: ["Git/Gitea", "Python", "MATLAB", "CI/CD"],
     github: "https://github.com/henry-AY/STAR-CICD-pipeline-docs"
   }
@@ -303,25 +317,6 @@ const onRepeatTracks = [
     embedUrl: "https://open.spotify.com/embed/track/57ZFmLushr2mLmY1NMoZwI?utm_source=generator"
   }
 ]
-
-// const onRepeatTracks = [
-//   {
-//     id: "track-1",
-//     embedUrl: "https://open.spotify.com/embed/track/5YxO2ytkSJOvrLn7i1xUe2?utm_source=generator&theme=0"
-//   },
-//   {
-//     id: "track-2",
-//     embedUrl: "https://open.spotify.com/embed/track/5L95vS64rG1YMIFm1hLjyZ?utm_source=generator&theme=0"
-//   },
-//   {
-//     id: "track-3",
-//     embedUrl: "https://open.spotify.com/embed/track/7MpAJjJbMrmeLJbrDJ0wHh?utm_source=generator&theme=0"
-//   },
-//   {
-//     id: "track-4",
-//     embedUrl: "https://open.spotify.com/embed/track/57ZFmLushr2mLmY1NMoZwI?utm_source=generator&theme=0"
-//   }
-// ]
 
 function App() {
   const [view, setView] = useState('home'); 

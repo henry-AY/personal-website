@@ -4,25 +4,45 @@ import { useEffect } from 'react';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
 import Stack from './Stack';
 
+// Importing images
+import chicagoBeanImg from './assets/photo-1549533948-77ab8a0d9878.avif'
+import lakeTahoeImg from './assets/photo-1557456170-0cf4f4d0d362.avif'
+import caliCoastImg from './assets/photo-1446630073557-fca43d580fbe.avif'
+import forestImg from './assets/photo-1509838174235-432f709c7bfd.avif'
+import sanFranImg from './assets/photo-1534050359320-02900022671e.avif'
+import cincBridgeImg from './assets/photo-1577949098263-a5fc867be37b.avif'
+import goldenGateImg from './assets/photo-1600476086547-c30b4d55afac.avif'
+import frankfurtImg from './assets/photo-1602521879205-9e43bd841b1a.avif'
+import nevadaImg from './assets/photo-1614823498916-a28a7d67182c.avif'
+import wyomingPastureImg from './assets/photo-1685303658280-d9feb841ebfa.avif'
+
+// Importing pizza images
+import doughImg from './assets/photo-1517686469429-8bdb88b9f907.avif'
+import pizzaImg from './assets/photo-1579751626657-72bc17010498.avif'
+import breadImg from './assets/photo-1590301157172-7ba48dd1c2b2.avif'
+import pizzaOvenImg from './assets/photo-1622880833523-7cf1c0bd4296.avif'
+import pizzaAboveImg from './assets/photo-1682264788192-9abdec90c425.avif'
+
+
 const hikingImages = [
-  "https://images.unsplash.com/photo-1600476086547-c30b4d55afac?q=80&w=2171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Golden gate bridge
-  "https://images.unsplash.com/photo-1446630073557-fca43d580fbe?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // California Coast
-  "https://images.unsplash.com/photo-1534050359320-02900022671e?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // San Fransisco
-  "https://images.unsplash.com/photo-1557456170-0cf4f4d0d362?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Lake Tahoe
-  "https://images.unsplash.com/photo-1549533948-77ab8a0d9878?q=80&w=1064&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Chicago
-  "https://images.unsplash.com/photo-1577949098263-a5fc867be37b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Cincinatti
-  "https://images.unsplash.com/photo-1602521879205-9e43bd841b1a?q=80&w=986&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Frankfurt
-  "https://images.unsplash.com/photo-1614823498916-a28a7d67182c?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Nevada Desert
-  "https://images.unsplash.com/photo-1685303658280-d9feb841ebfa?q=80&w=2042&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", // Wyoming
-  "https://images.unsplash.com/photo-1509838174235-432f709c7bfd?q=80&w=2370&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" // Smoking Mountains
+  chicagoBeanImg,
+  lakeTahoeImg,
+  caliCoastImg,
+  forestImg,
+  sanFranImg,
+  cincBridgeImg,
+  goldenGateImg,
+  frankfurtImg,
+  nevadaImg,
+  wyomingPastureImg
 ];
 
 const pizzaImages = [
-  "https://images.unsplash.com/photo-1579751626657-72bc17010498?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1622880833523-7cf1c0bd4296?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1682264788192-9abdec90c425?q=80&w=987&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1517686469429-8bdb88b9f907?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1590301157172-7ba48dd1c2b2?q=80&w=1036&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+  doughImg,
+  pizzaImg,
+  breadImg,
+  pizzaAboveImg,
+  pizzaOvenImg
 ];
 
 export default function NowPage({ setView, onRepeatTracks = [] }) {
