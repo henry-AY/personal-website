@@ -4,45 +4,25 @@ import { useEffect } from 'react';
 import ScrollStack, { ScrollStackItem } from './ScrollStack';
 import Stack from './Stack';
 
-// Importing images
-import chicagoBeanImg from './assets/photo-1549533948-77ab8a0d9878.avif'
-import lakeTahoeImg from './assets/photo-1557456170-0cf4f4d0d362.avif'
-import caliCoastImg from './assets/photo-1446630073557-fca43d580fbe.avif'
-import forestImg from './assets/photo-1509838174235-432f709c7bfd.avif'
-import sanFranImg from './assets/photo-1534050359320-02900022671e.avif'
-import cincBridgeImg from './assets/photo-1577949098263-a5fc867be37b.avif'
-import goldenGateImg from './assets/photo-1600476086547-c30b4d55afac.avif'
-import frankfurtImg from './assets/photo-1602521879205-9e43bd841b1a.avif'
-import nevadaImg from './assets/photo-1614823498916-a28a7d67182c.avif'
-import wyomingPastureImg from './assets/photo-1685303658280-d9feb841ebfa.avif'
-
-// Importing pizza images
-import doughImg from './assets/photo-1517686469429-8bdb88b9f907.avif'
-import pizzaImg from './assets/photo-1579751626657-72bc17010498.avif'
-import breadImg from './assets/photo-1590301157172-7ba48dd1c2b2.avif'
-import pizzaOvenImg from './assets/photo-1622880833523-7cf1c0bd4296.avif'
-import pizzaAboveImg from './assets/photo-1682264788192-9abdec90c425.avif'
-
-
 const hikingImages = [
-  chicagoBeanImg,
-  lakeTahoeImg,
-  caliCoastImg,
-  forestImg,
-  sanFranImg,
-  cincBridgeImg,
-  goldenGateImg,
-  frankfurtImg,
-  nevadaImg,
-  wyomingPastureImg
+  '/images/photo-1549533948-77ab8a0d9878.avif',
+  '/images/photo-1557456170-0cf4f4d0d362.avif',
+  '/images/photo-1446630073557-fca43d580fbe.avif',
+  '/images/photo-1509838174235-432f709c7bfd.avif',
+  '/images/photo-1534050359320-02900022671e.avif',
+  '/images/photo-1577949098263-a5fc867be37b.avif',
+  '/images/photo-1600476086547-c30b4d55afac.avif',
+  '/images/photo-1602521879205-9e43bd841b1a.avif',
+  '/images/photo-1614823498916-a28a7d67182c.avif',
+  '/images/photo-1685303658280-d9feb841ebfa.avif'
 ];
 
 const pizzaImages = [
-  doughImg,
-  pizzaImg,
-  breadImg,
-  pizzaAboveImg,
-  pizzaOvenImg
+  '/images/photo-1517686469429-8bdb88b9f907.avif',
+  '/images/photo-1579751626657-72bc17010498.avif',
+  '/images/photo-1590301157172-7ba48dd1c2b2.avif',
+  '/images/photo-1622880833523-7cf1c0bd4296.avif',
+  '/images/photo-1622880833523-7cf1c0bd4296.avif'
 ];
 
 export default function NowPage({ setView, onRepeatTracks = [] }) {
@@ -148,6 +128,7 @@ export default function NowPage({ setView, onRepeatTracks = [] }) {
                                     key={i} 
                                     src={src} 
                                     alt={`pizza-${i + 1}`} 
+                                    loading="lazy"
                                     style={{ width: '100%', height: '100%', objectFit: 'cover' }} 
                                 />
                             ))}
@@ -210,7 +191,8 @@ export default function NowPage({ setView, onRepeatTracks = [] }) {
                     display: 'flex', 
                     gap: '1.5rem', 
                     paddingRight: '1.5rem', 
-                    width: 'max-content' 
+                    width: 'max-content',
+                    willChange: 'transform'
                 }}
                 >
                 {[...hikingImages, ...hikingImages].map((src, index) => (

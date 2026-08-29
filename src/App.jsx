@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState, useEffect, lazy, Suspense } from 'react';
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValueEvent, useSpring } from "framer-motion";
 import { ReactLenis, useLenis } from 'lenis/react';
 
@@ -9,14 +9,8 @@ import TiltedCard from './TiltedCard';
 import MagneticElement from './MagneticElement';
 import GradualBlur from './GradualBlur';
 
-// Importing images
-import parrotImg from './assets/photo-1504579264001-833438f93df2.avif'
-import philImg from './assets/photo-1653299832314-5d3dc1e5a83c.avif'
-import monoImg from './assets/photo-1684503830891-27e71ff697e3.avif'
-import gstarImg from './assets/photo-1548248823-ce16a73b6d49.avif'
 
-
-import NowPage from './NowPage';
+const NowPage = lazy(() => import('./NowPage'));
 
 import { Github, Linkedin, Mail, ChevronDown, Plus, Minus , Check} from 'lucide-react';
 
@@ -82,7 +76,7 @@ const Hero = () => {
       
       <div className="hero-content">
         <h1>Henry Yost.</h1>
-        <p className="bio">Data Science Student building AI/ML solutions, scalable backends & pipelines, and high-performance digital experiences.</p>
+        <p className="bio">Data Science Student building AI/ML solutions, scalable backends & pipelines, and high-end digital experiences.</p>
       </div>
 
       <div className="scroll-indicator">
@@ -245,28 +239,28 @@ const projects = [
   {
     title: "Parrot",
     description: "A distribution-aware generative engine for high-fidelity time-series synthesis. Designed to solve data scarcity in complex physical systems (EV/IoT) using β-Variational Auto-encoders and MMD-based statistical validation.",
-    imageSrc: parrotImg,
+    imageSrc: '/images/photo-1504579264001-833438f93df2.avif',
     tech: ["PyTorch", "Deep Learning", "Variational Autoencoders (VAE)"],
     github: "https://github.com/henry-AY/Parrot"
   }, 
   {
     title: "Phil",
     description: "A Chrome Extension that intelligently filters, summarizes, and organizes your Gmail inbox. Phil fetches your latest emails, and presents a clean, organized, labeled list.",
-    imageSrc: philImg, 
+    imageSrc: '/images/photo-1653299832314-5d3dc1e5a83c.avif', 
     tech: ["Node.js", "RESTful API", "Gemini Agent", "AWS Lambda"],
     github: "https://github.com/henry-AY/Phil"
   },
   {
     title: "MonoGPT",
     description: "MonoGPT is a large language model (LLM) using a neural network and transformer architecture in PyTorch to generate human-like text.",
-    imageSrc: monoImg, 
+    imageSrc: '/images/photo-1684503830891-27e71ff697e3.avif', 
     tech: ["Python", "PyTorch", "NumPy", "WebGL", "React", "Node.js", "FastAPI"],
     github: "https://github.com/henry-AY/monoGPT"
   },
   {
     title: "G-STAR",
     description: "Git/Gitea Simulink Test Automation Runner (G-STAR) is a CI/CD pipeline focused on automating the testing of .mldatx simulink model files utilizing a git/gitea runner.",
-    imageSrc: gstarImg, 
+    imageSrc: '/images/photo-1548248823-ce16a73b6d49.avif', 
     tech: ["Git/Gitea", "Python", "MATLAB", "CI/CD"],
     github: "https://github.com/henry-AY/STAR-CICD-pipeline-docs"
   }
@@ -277,10 +271,11 @@ const experiences = [
     role: "Cloud Data Engineer",
     company: "University of California, Riverside - Joe Lab",
     date: "Jun 2026 — Aug 2026",
-    tech: ["Google Cloud Console", "Gemini", "MongoDB", "Cloudflare", "ETL"],
-    description: "Architected the front and backend designs for an ETL pipeline to turn image data into a queryable data marketplace.",
+    tech: ["Google Cloud Console", "Gemini", "MongoDB", "Cloudflare", "Redis", "Python", "ETL"],
+    description: "Architected a cloud ETL pipeline and backend search layer to turn microscope research files from Google Drive into a queryable data marketplace.",
     details: [
-      
+      "Engineered an automated backend pipeline using Gemini batch processing to extract structured metadata across non-linear data, map sample hierarchies, and store indexed flake records in MongoDB.",
+      "Optimized pipeline performance by compressing preview thumbnails with Pillow to reduce R2 payload sizes by 98% and caching Drive folder structures in Redis to cut path lookup latency to under 10ms."
     ]
   },
   {
@@ -515,7 +510,9 @@ function App() {
             </footer>
           </motion.div>
         ) : (
-          <NowPage key="now-view" setView={setView} onRepeatTracks={onRepeatTracks} />
+          <Suspense fallback={<div style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>Loading...</div>}>
+            <NowPage key="now-view" setView={setView} onRepeatTracks={onRepeatTracks} />
+          </Suspense>
         )}
       </AnimatePresence>
     </ReactLenis>
