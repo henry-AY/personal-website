@@ -26,7 +26,8 @@ function ParallaxImage({ src, alt }) {
     target: ref,
     offset: ["start end", "end start"]
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+  
+  const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
     <div ref={ref} className="card-image-container">
@@ -35,7 +36,12 @@ function ParallaxImage({ src, alt }) {
         alt={alt} 
         loading="lazy"
         className="card-image" 
-        style={{ y, willChange: "transform" }} />
+        style={{ 
+            y, 
+            scale: 1.25,
+            willChange: "transform" 
+        }} 
+      />
     </div>
   );
 }
@@ -264,32 +270,23 @@ const projects = [
     tech: ["Git/Gitea", "Python", "MATLAB", "CI/CD"],
     github: "https://github.com/henry-AY/STAR-CICD-pipeline-docs"
   }
-  // {
-  //   title: "ATS Resume Screening",
-  //   description: "An Applicant Tracking System (ATS) using SBERT embeddings to compare similarities, and training a Support Vector Machine (SVM) to classify candidates.",
-  //   imageSrc: "https://images.unsplash.com/photo-1712684819524-af72f0d9c3e5?q=80&w=987&auto=format&fit=crop", 
-  //   tech: ["Jupyter Notebook", "SBERT", "SVM", "t-SNE Clustering"],
-  //   github: "https://github.com/henry-AY/ResumeScreening"
-  // },
 ];
 
 const experiences = [
   {
-    role: "Lead Developer",
-    company: "Phil",
-    date: "Mar 2026 — Present",
-    tech: ["AWS", "Lambda", "DynamoDB", "RESTful APIs", "OAuth 2.0"],
-    description: "Leading the backend architecture and beta deployment for an AI-powered email management Chrome extension.",
+    role: "Cloud Data Engineer",
+    company: "University of California, Riverside - Joe Lab",
+    date: "Jun 2026 — Aug 2026",
+    tech: ["Google Cloud Console", "Gemini", "MongoDB", "Cloudflare", "ETL"],
+    description: "Architected the front and backend designs for an ETL pipeline to turn image data into a queryable data marketplace.",
     details: [
-      "Architected and deployed to beta an AI email Chrome extension using a serverless AWS Lambda backend to categorize user inboxes via a RESTful microservices architecture.",
-      "Implemented a stateless data pipeline using DynamoDB TTL to minimize long-term data cloud storage usage and costs.",
-      "Implemented high-privilege OAuth 2.0 modify scopes on user's inboxes with server-side token verification to ensure secure authorized access."
+      
     ]
   },
   {
     role: "Propulsion, Controls & Modeling Testing Subteam Lead",
     company: "UCR EcoCAR",
-    date: "Oct 2025 — Present",
+    date: "Oct 2025 — May 2026",
     tech: ["Simulink", "MATLAB", "CI/CD", "Model-in-the-Loop (MIL)"],
     description: "Directing the software testing, validation and automated deployment of advanced vehicle subsystems.",
     details: [
