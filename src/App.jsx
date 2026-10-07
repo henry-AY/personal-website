@@ -4,10 +4,10 @@ import { ReactLenis, useLenis } from 'lenis/react';
 
 import '@fontsource-variable/inter';
 
-import ColorBends from './ColorBends';
 import TiltedCard from './TiltedCard';
 import MagneticElement from './MagneticElement';
 import GradualBlur from './GradualBlur';
+import PatternWaves from './PatternWaves';
 
 
 const NowPage = lazy(() => import('./NowPage'));
@@ -65,11 +65,30 @@ const Hero = () => {
     <header className="hero">
       <div className="hero-bg">
         {showCanvas && (
-          <ColorBends 
-            colors={["#ff5c7a", "#8a5cff", "#00ffd1"]} 
-            rotation={0} speed={0.2} scale={1} frequency={1} 
-            warpStrength={1} mouseInfluence={1} parallax={0.5} 
-            noise={0.1} transparent={true} autoRotate={0} 
+            <PatternWaves
+              preset="silk"
+              color="#508da9ff"
+              backgroundColor="#120f17"
+              fade="edges"
+              interactive={false}
+              cursorSize={50}
+              cursorStrength={0.6}
+              pattern="line"
+              wave="silk"
+              spacing={9}
+              markSize={0.95}
+              depth={0.95}
+              light={0}
+              shine={0.8}
+              contrast={1.2}
+              speed={0.35}
+              scale={2}
+              direction={20}
+              opacity={1}
+              fadeSize={0.5}
+              characters=".:-=+*#%@"
+              intro={false}
+              paused={false}
           />
         )}
       </div>
@@ -104,30 +123,6 @@ function ExperienceCard({ exp }) {
         
         <motion.p layout className="exp-company">{exp.company}</motion.p>
         <motion.p layout className="exp-description">{exp.description}</motion.p>
-        
-        <AnimatePresence initial={false}>
-          {isOpen && (
-            <motion.div 
-              key="accordion-content"
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
-              style={{ overflow: "hidden" }}
-            >
-              <ul className="exp-details">
-                {exp.details && exp.details.map((detail, i) => (
-                  <li key={i}>{detail}</li>
-                ))}
-              </ul>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <motion.button layout className="exp-toggle">
-          {isOpen ? <Minus size={16} /> : <Plus size={16} />}
-          {isOpen ? "Show less" : "Read more"}
-        </motion.button>
         
         {exp.tech && (
           <motion.div layout className="tech-stack exp-tech">
@@ -268,7 +263,15 @@ const projects = [
 
 const experiences = [
   {
-    role: "Cloud Data Engineer",
+    role: "Research Software Engineer (RSE)",
+    company: "University of California, Riverside - Joe Lab",
+    date: "Aug 2026 — Now",
+    tech: ["Google Cloud Platform", "Cloud Edge", "Cloudflare", "Cloudflare D1/D2", "Hono"],
+    description: "Launched V2 of the 2D material marketplace (2DMM.net), integrating edge microservices using Cloudflare Workers, Hono, D1/R2 into the marketplace infrastructure.",
+    details: [ ]
+  },
+  {
+    role: "Data Science Fellow",
     company: "University of California, Riverside - Joe Lab",
     date: "Jun 2026 — Aug 2026",
     tech: ["Google Cloud Console", "Gemini", "MongoDB", "Cloudflare", "Redis", "Python", "ETL"],
